@@ -34,9 +34,9 @@ def main():
     model = Model().to(device)
 
     # set optimizer function
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = optim.Adadelta(model.parameters())
 
-    scheduler = StepLR(optimizer, step_size=30, gamma=0.1)
+    scheduler = StepLR(optimizer, step_size=55, gamma=0.1)
     for epoch in range(1, epochs + 1):
         train(log_interval, model, device, training_loader, optimizer, epoch)
         test(model, device, test_loader)
