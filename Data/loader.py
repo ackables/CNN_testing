@@ -1,7 +1,7 @@
 """
 Loads the CIFAR-10 dataset
 """
-import torch
+
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
@@ -13,7 +13,7 @@ def cifar10_loader(data_dir="./CIFAR-10"):
     training_set = datasets.CIFAR10(root=data_dir, train=True, download=True, transform=transform)
     test_set = datasets.CIFAR10(root=data_dir, train=False, download=True, transform=transform)
 
-    batch_size = 64
+    batch_size = 32
 
 
     training_loader = DataLoader(
@@ -25,7 +25,7 @@ def cifar10_loader(data_dir="./CIFAR-10"):
 
     test_loader = DataLoader(
         test_set,
-        batch_size=10000,
+        batch_size=32,
         shuffle=True,
         num_workers=0
     )

@@ -7,3 +7,41 @@ College of Science and Engineering
 CNN built to train on the CIFAR-10 dataset
 """
 
+import argparse
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+from torchvision import datasets, transforms
+from torch.optim.lr_scheduler import StepLR
+from Data.loader import cifar10_loader
+from Data.testing import test
+from Data.training import train
+from Model.CNN import Model
+
+
+# set desired device to run model on
+device = torch.device("cuda")
+epochs = 100
+learning_rate = 0.001
+log_interval = 100
+
+def main():
+    # load data
+    training_loader, test_loader = cifar10_loader()
+
+    # load  model 
+    model = Model().to(device)
+
+    # set optimizer function
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
+    scheduler = StepLR(optimizer, step_size=30, gamma=0.1)
+    for epoch in range(1, epochs + 1):
+        train(log_interval, model, device, training_loader, optimizer, epoch)
+        test(model, device, test_loader)
+        scheduler.step()
+
+
+if __name__ == '__main__':
+    main()
