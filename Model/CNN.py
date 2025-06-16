@@ -23,8 +23,8 @@ class Model(nn.Module):
         # self.dropout2 = nn.Dropout(0.5)
         # self.dropout3 = nn.Dropout(0.25)
 
-        self.fc1 = nn.Linear(245000, 50000)
-        self.fc2 = nn.Linear(50000, 10)
+        self.fc1 = nn.Linear(45000, 5000)
+        self.fc2 = nn.Linear(5000, 10)
         # self.fc3 = nn.Linear(100, 10)
 
         self.lrn = nn.LocalResponseNorm(3)
