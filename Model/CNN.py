@@ -16,15 +16,15 @@ class Model(nn.Module):
         self.batchNorm1 = nn.BatchNorm2d(1000)
         self.conv2 = nn.Conv2d(1000, 2000, kernel_size=3, padding='same', stride=1)
         self.batchNorm2 = nn.BatchNorm2d(2000)
-        self.conv3 = nn.Conv2d(2000, 4000, kernel_size=3, padding='same', stride=1)
+        self.conv3 = nn.Conv2d(2000, 5000, kernel_size=3, padding='same', stride=1)
         # self.conv4 = nn.Conv2d(50, 100, kernel_size=5, stride=2)
         
         self.dropout1 = nn.Dropout(0.5)
         # self.dropout2 = nn.Dropout(0.5)
         # self.dropout3 = nn.Dropout(0.25)
 
-        self.fc1 = nn.Linear(196000, 2500)
-        self.fc2 = nn.Linear(2500, 10)
+        self.fc1 = nn.Linear(245000, 50000)
+        self.fc2 = nn.Linear(50000, 10)
         # self.fc3 = nn.Linear(100, 10)
 
         self.lrn = nn.LocalResponseNorm(3)
@@ -36,7 +36,7 @@ class Model(nn.Module):
         x = self.batchNorm2(x)
         x = F.leaky_relu(self.conv3(x), negative_slope=0.01)
 
-        x = F.max_pool2d(x, 2)
+        x = F.max_pool2d(x, kernel_size=4)
         x = self.lrn(x)
         x = self.dropout1(x)
         x = torch.flatten(x, 1)

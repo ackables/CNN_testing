@@ -24,10 +24,10 @@ import datetime
 
 # set desired device to run model on
 device = torch.device("cuda")
-epochs = 15
+epochs = 8
 learning_rate = 0.0001
 log_interval = 100
-batch_size = 16
+batch_size = 64
 
 def main():
     train_loss = []
@@ -42,7 +42,7 @@ def main():
     # set optimizer function
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    scheduler = StepLR(optimizer, step_size=3, gamma=0.9)
+    scheduler = StepLR(optimizer, step_size=2, gamma=0.5)
     for epoch in range(1, epochs + 1):
         train_loss = (train(log_interval, model, device, training_loader, optimizer, epoch, train_loss_list=train_loss))
         test_loss, accuracy = (test(model, device, test_loader, test_loss_list=test_loss, accuracy_list=accuracy))
