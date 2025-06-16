@@ -24,14 +24,17 @@ import datetime
 
 # set desired device to run model on
 device = torch.device("cuda")
-epochs = 5
-learning_rate = 0.001
+epochs = 15
+learning_rate = 0.0001
 log_interval = 100
-train_loss = []
+batch_size = 16
 
 def main():
+    train_loss = []
+    test_loss = []
+    accuracy = []
     # load data
-    training_loader, test_loader = cifar10_loader()
+    training_loader, test_loader = cifar10_loader(batch_size=batch_size)
 
     # load  model 
     model = Model().to(device)
@@ -39,13 +42,17 @@ def main():
     # set optimizer function
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    scheduler = StepLR(optimizer, step_size=1, gamma=0.9)
+    scheduler = StepLR(optimizer, step_size=3, gamma=0.9)
     for epoch in range(1, epochs + 1):
-        train_loss.append(train(log_interval, model, device, training_loader, optimizer, epoch))
-        test(model, device, test_loader)
+        train_loss = (train(log_interval, model, device, training_loader, optimizer, epoch, train_loss_list=train_loss))
+        test_loss, accuracy = (test(model, device, test_loader, test_loss_list=test_loss, accuracy_list=accuracy))
         scheduler.step()
 
-    plt.plot([i for i in range(len(train_loss))], train_loss)
+    plt.plot([i/(50000//batch_size) for i in range(len(train_loss))], train_loss)
+    # plt.savefig(f"./figures/loss_graph_{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.png")
+
+    plt.plot([i/(10000//batch_size) for i in range(len(test_loss))], test_loss)
+    plt.plot([i for i in range(len(accuracy))], accuracy)
     plt.savefig(f"./figures/loss_graph_{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.png")
 
 

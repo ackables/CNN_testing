@@ -12,19 +12,19 @@ from torch.optim.lr_scheduler import StepLR
 class Model(nn.Module):
     def __init__(self) -> None:
         super().__init__()
-        self.conv1 = nn.Conv2d(3, 750, kernel_size=5, padding=(5-2)//2, stride=2)
-        self.batchNorm1 = nn.BatchNorm2d(750)
-        self.conv2 = nn.Conv2d(750, 1000, kernel_size=3, padding='same', stride=1)
-        self.batchNorm2 = nn.BatchNorm2d(1000)
-        self.conv3 = nn.Conv2d(1000, 4000, kernel_size=3, padding='same', stride=1)
+        self.conv1 = nn.Conv2d(3, 1000, kernel_size=5, padding=(5-2)//2, stride=2)
+        self.batchNorm1 = nn.BatchNorm2d(1000)
+        self.conv2 = nn.Conv2d(1000, 2000, kernel_size=3, padding='same', stride=1)
+        self.batchNorm2 = nn.BatchNorm2d(2000)
+        self.conv3 = nn.Conv2d(2000, 4000, kernel_size=3, padding='same', stride=1)
         # self.conv4 = nn.Conv2d(50, 100, kernel_size=5, stride=2)
         
-        self.dropout1 = nn.Dropout(0.4)
+        self.dropout1 = nn.Dropout(0.5)
         # self.dropout2 = nn.Dropout(0.5)
         # self.dropout3 = nn.Dropout(0.25)
 
-        self.fc1 = nn.Linear(196000, 1000)
-        self.fc2 = nn.Linear(1000, 10)
+        self.fc1 = nn.Linear(196000, 2500)
+        self.fc2 = nn.Linear(2500, 10)
         # self.fc3 = nn.Linear(100, 10)
 
         self.lrn = nn.LocalResponseNorm(3)

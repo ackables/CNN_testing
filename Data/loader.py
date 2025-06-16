@@ -5,7 +5,7 @@ Loads the CIFAR-10 dataset
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 
-def cifar10_loader(data_dir="./CIFAR-10"):
+def cifar10_loader(batch_size, data_dir="./CIFAR-10"):
     transform = transforms.Compose([
         transforms.ToTensor(),
     ])
@@ -13,7 +13,6 @@ def cifar10_loader(data_dir="./CIFAR-10"):
     training_set = datasets.CIFAR10(root=data_dir, train=True, download=True, transform=transform)
     test_set = datasets.CIFAR10(root=data_dir, train=False, download=True, transform=transform)
 
-    batch_size = 64
 
 
     training_loader = DataLoader(
@@ -25,7 +24,7 @@ def cifar10_loader(data_dir="./CIFAR-10"):
 
     test_loader = DataLoader(
         test_set,
-        batch_size=64,
+        batch_size=batch_size,
         shuffle=True,
         num_workers=0
     )
