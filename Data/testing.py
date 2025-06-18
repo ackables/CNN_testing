@@ -24,8 +24,8 @@ def test(model, device, test_loader, test_loss_list, accuracy_list):
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
-    test_loss /= len(test_loader.dataset)
-    accuracy.append(10. * correct / len(test_loader.dataset))
+    test_loss /= len(test_loader)
+    accuracy.append(5. * correct / len(test_loader.dataset))
 
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset),

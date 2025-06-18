@@ -24,7 +24,7 @@ import datetime
 
 # set desired device to run model on
 device = torch.device("cuda")
-epochs = 8
+epochs = 50
 learning_rate = 0.0001
 log_interval = 100
 batch_size = 64
@@ -42,7 +42,7 @@ def main():
     # set optimizer function
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
-    scheduler = StepLR(optimizer, step_size=2, gamma=0.5)
+    scheduler = StepLR(optimizer, step_size=10, gamma=0.8)
     for epoch in range(1, epochs + 1):
         train_loss = (train(log_interval, model, device, training_loader, optimizer, epoch, train_loss_list=train_loss))
         test_loss, accuracy = (test(model, device, test_loader, test_loss_list=test_loss, accuracy_list=accuracy))
@@ -52,7 +52,7 @@ def main():
     # plt.savefig(f"./figures/loss_graph_{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.png")
 
     plt.plot([i/(10000//batch_size) for i in range(len(test_loss))], test_loss)
-    plt.plot([i for i in range(len(accuracy))], accuracy)
+    plt.plot([i+1 for i in range(len(accuracy))], accuracy)
     plt.savefig(f"./figures/loss_graph_{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.png")
 
 
